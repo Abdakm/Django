@@ -1,0 +1,13 @@
+{% extends 'pages/layout.html' %}
+{% block body %}
+	{% if searched %}
+		<h1>you searched for {{searched}}</h1>
+		{% for name in names %}
+			<a href="{% url 'show_information' %}">{{ name }}</a><br>
+		{% endfor %}
+		{% else %}
+		<h1>you forget search</h1>
+	{% endif %}
+
+
+{% endblock %}

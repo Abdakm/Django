@@ -1,0 +1,12 @@
+{% extends 'events/layout.html' %}
+
+{% block body %}
+
+	<h1>update venue</h1>
+	<form action="" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form.as_p}}
+		<input type="submit" value="Update" name="submit" class="btn btn-secondary">
+	</form>
+
+{% endblock %}

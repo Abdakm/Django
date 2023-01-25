@@ -1,0 +1,27 @@
+{% extends 'pages/layout.html' %}
+{% block body %}
+
+{% if search %}
+<h1>you searched for {{ search }}</h1>
+{% for user in users %}
+    <table class="table table-hover table-striped table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        {% for person in users %}
+        <tr>
+            <td>{{ person.id }}</td>
+            <td><a href="{% url 'show_user' person.id %}">{{ person.firstname }}</a></td>
+            <td>{{ person.lastname }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'std_form' %}" class="">Student Form</a>
+{% endfor %}
+{% else %}
+<h1>you forget search for any thing!!</h1>
+{% endif %}
+
+{% endblock %}

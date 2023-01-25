@@ -1,0 +1,22 @@
+{% extends 'pages/layout.html' %}
+{% block body %}
+
+    <table class="table table-hover table-striped table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Update</th>
+        </tr>
+        {% for person in info %}
+        <tr>
+            <td>{{ person.id }}</td>
+            <td><a href="{% url 'show_user' person.id %}">{{ person.firstname }}</a></td>
+            <td>{{ person.lastname }}</td>
+            <td><a class="btn btn-outline-secondary" href="{% url 'update' person.id %}">Update</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'std_form' %}" class="">Student Form</a>
+
+{% endblock %}

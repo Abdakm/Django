@@ -1,0 +1,10 @@
+{% extends 'pages/layout.html' %}
+{% block body %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{cont.as_p}}
+        <input class="btn btn-secondary" type="submit" value="update" name="submit">
+    </form>
+
+{% endblock %}

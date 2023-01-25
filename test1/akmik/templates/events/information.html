@@ -1,0 +1,11 @@
+{% extends 'events/layout.html' %}
+{% block body %}
+	{% for person in information %}
+		clint number: {{ count }}
+		{{person.First_Name}}
+		{{person.Last_Name}}
+		{{person.Email}}
+		{{person.Password}}<br>
+	{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'pages/layout.html' %}
+{% block body %}
+		<table border="1" class="table table-hover table-striped table-bordered">
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Password</th>
+			</tr>
+	{% for person in info %}
+			<tr>
+				<td><a href="{% url 'show_information' person.id%}">{{person}}</a></td>
+				<td>{{person.lastname}}</td>
+				<td>{{person.email}}</td>
+				<td>{{person.password}}</td>
+			</tr>
+	{% endfor %}
+		</table>
+
+
+{% endblock %}	

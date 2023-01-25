@@ -1,0 +1,28 @@
+{% extends 'events/layout.html' %}
+
+{% block body %}
+	{% for event in events %}
+		<div style="margin-bottom: 5px;" class="card">
+  			<div class="card-header">{{ event }}</div>
+  			<div class="card-body">
+    			<h5 class="card-title">Venue: {{ event.venue }}</h5>
+    			<p class="card-text">	
+					<ul>
+						<li>user :{{ user.id }}</li>
+						<li>Date: {{ event.event_date }}</li>
+						<li>Venue Phone: {{ event.venue.phone }}</li>
+						<li>{{ event.id }}</li>
+						<li>Manager: {{ event.manager }}</li>
+						<li>Description: {{ event.description }}</li>
+						<li>Attendees:
+							{% for attend in event.attendees.all %}
+								&nbsp<br>{{ attend }}
+							{% endfor %}
+						</li>
+					</ul>
+    			</p>
+    			<a href="#" class="btn btn-primary">Go somewhere</a>
+  			</div>
+		</div>
+		{% endfor %}
+{% endblock %}

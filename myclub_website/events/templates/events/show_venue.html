@@ -1,0 +1,25 @@
+{% extends 'events/layout.html' %}
+
+{% block body %}
+
+	<div class="card">
+  			<div class="card-header">venue</div>
+  			<div class="card-body">
+    			<h5 class="card-title">Venue: {{ venue }}</h5>
+    			<p class="card-text">	
+					<ul>
+						<li>{{ venue.address }}</li>
+						<li>{{ venue.zip_code }}</li>
+						<li>{{ venue.phone }}</li>
+						<li>{{ venue.email_address }}</li>
+						<li>{{ venue.web }}</li>
+						<li>owner: {{ venue_owner }}</li>
+						<li>owner_email : {{ venue_owner.email }}</li>
+					</ul>
+					<img src="{{ venue.venue_image.url }}" style="width: 200px;">
+    			</p>
+    			<a href="#" class="btn btn-primary">Go somewhere</a>
+  			</div>
+		</div>
+
+{% endblock %}

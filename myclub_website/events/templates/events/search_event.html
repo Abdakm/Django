@@ -1,0 +1,53 @@
+{% extends 'events/layout.html' %}
+
+{% block body %}
+
+		<div style="margin-bottom: 5px;" class="card">
+  			{% if searched %}
+  				<div class="card-header"><h2>Search For {{ searched }}</h2></div>
+  			{% else %}
+  				<div class="card-header"><h2>Search</h2></div>
+  			{% endif %}
+  			<div class="card-body">
+		        <form class="d-flex" role="search" method="POST" action="{% url 'events:search_event' %}">
+			        {% csrf_token %}
+			        <input class="form-control me-2" name="searched" type="search" placeholder="Search" aria-label="Search">
+			        <button class="btn btn-outline-secondary" type="submit">Search</button>
+		        </form>
+  			</div>
+		</div>
+				{% if searched %}
+					{% for event in events %}
+					<div class="card">
+			  			<div class="card-header">{{ event }}</div>
+			  			<div class="card-body">
+			    			<h5 class="card-title">Venue: {{ event.venue }}</h5>
+			    			<p class="card-text">	
+								<ul>
+									<li>Date: {{ event.event_date }}</li>
+									<li>Venue Phone: {{ event.venue.phone }}</li>
+									<li>{{ event.id }}</li>
+									<li>Manager: {{ event.manager }}</li>
+									<li>Description: {{ event.description }}</li>
+									<li>Attendees:
+										{% for attend in event.attendees.all %}
+											&nbsp<br>{{ attend }}
+										{% endfor %}
+									</li>
+								</ul>
+			    			</p>
+			    			<a href="#" class="btn btn-primary">Go somewhere</a>
+			  			</div>
+						{% if user.is_authenticated %}
+							{% if user == event.manager %}
+					  			<div class="card-footer text-muted">
+					  				<a class="btn btn-outline-secondary btn-sm" href="{% url 'events:update_event' event.id %}">Update Event</a>
+					  				<a class="btn btn-outline-danger btn-sm" href="{% url 'events:delete_event' event.id %}">Delete Event</a>
+					  			</div>
+				  			{% endif %}
+			  			{% endif %}
+					</div>
+					{% endfor %}
+				{% endif %}
+
+{% endblock %}
