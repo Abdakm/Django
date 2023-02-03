@@ -1,16 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-# Create your models here.
-
-# models.CharField
-# models.URLField
-# models.EmailField
-# models.DateTimeField
-# models.ForeignKey
-# models.TextField
-# models.ManyToManyField(Class Name, blank = True)
-# blank = True >> we can put null value
+from datetime import date
 
 class Venue(models.Model):
 	name = models.CharField("Venue Name", max_length=120)
@@ -23,6 +13,11 @@ class Venue(models.Model):
 	owner = models.IntegerField('Venue Owner', blank=False, default=1)
 	venue_image = models.ImageField(null=True, blank=True, upload_to='images/')
 
+	class Meta: # Go to admin site
+		verbose_name_plural = ('Test')
+		verbose_name = ('Postion')
+		ordering = ('-name',)
+
 	def __str__(self):
 		return self.name
 
@@ -32,7 +27,7 @@ class MyClubUser(models.Model):
 	email = models.EmailField("User Email")
 
 	def __str__(self):
-		return self.first_name + ' ' + self.last_name
+		return self.first_name + ' ' + self.last_name	
 
 class Event(models.Model):
 	name = models.CharField("Event Name", max_length = 120)	
@@ -43,6 +38,32 @@ class Event(models.Model):
 	manager = models.ForeignKey(User, blank = True, null = True, on_delete = models.SET_NULL)
 	attendees = models.ManyToManyField(MyClubUser, blank=True)
 	description = models.TextField(blank=True)
+	approved = models.BooleanField('Approved', default=False)
 
 	def __str__(self):
 		return self.name
+
+	@property
+	def Days_till(self):
+		today = date.today()
+		days_till = self.event_date.date() - today
+		days_till_stripped = str(days_till).split(",",1)[0]
+		return days_till_stripped
+	
+	@property
+	def Is_Past(self):
+		today = date.today()
+		if self.event_date.date() < today:
+			thing = "Past"
+		else:
+			thing = "Future"
+		return thing
+
+	@property
+	def datetime(self):
+		date = self.event_date.date()
+		today = date.today()
+		pr = f''' .date : {date} || .today : {today} '''
+		return pr
+
+

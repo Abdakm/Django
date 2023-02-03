@@ -5,7 +5,6 @@ from datetime import datetime
 from .models import Event, Venue
 from .forms import VenueForm, EventForm, EventFormAdmin
 from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
 import csv
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator #(next-page) (preves-page)
@@ -50,7 +49,7 @@ def home(request, year = datetime.now().year, month = datetime.now().strftime('%
 def show_venue(request, venue_id): # click on link venue
 	venue = Venue.objects.get(pk=venue_id)
 	venue_owner = User.objects.get(pk=venue.owner)
-	return render(request, "events/show_venue.html",{
+	return render(request, "events/show_venue.html",{	
 		"venue" : venue,
 		"venue_owner" : venue_owner
 		})
@@ -77,7 +76,6 @@ def add_venue(request):
 			venue = form.save(commit=False)
 			venue.owner = request.user.id
 			venue.save()
-			# form.save()
 			return HttpResponseRedirect('/add_venue?submitted=True')
 	else:
 		form = VenueForm
@@ -168,12 +166,13 @@ def delete_event(request, event_id):
 
 	return redirect('/list_events/')
 
+
 def venue_text(request):
 	response = HttpResponse(content_type='text/plain')
 	response['Content-Disposition'] = 'attachment; filename=venues.txt'
 	venues = Venue.objects.all()
 
-	lines = ['Hello	']
+	lines = []
 	for venue in venues:
 		lines.append(f'{venue.name}\n{venue.address}\n{venue.zip_code}\n{venue.phone}\n{venue.web}\n{venue.email_address}\n\n')
 
@@ -215,4 +214,29 @@ def search_event(request):
 	return render(request, "events/search_event.html", {
 		'searched' : searched,
 		'events' : events
+		})
+
+def admin_approval(request):
+	event_list = Event.objects.all().order_by('-event_date')
+	if request.user.is_superuser:
+		if request.method == 'POST':
+			id_list = request.POST.getlist('boxes') # boxes is name of checkbox in admin_approval.html
+			#Uncheck all events
+			event_list.update(approved=False)
+
+			# Update the datebase
+			for x in id_list:
+				Event.objects.filter(pk=int(x)).update(approved=True)
+			messages.success(request, ("Event List Approval Has been Approvaled"))
+			return redirect('events:list_events')
+		else:
+			return render(request, 'events/admin_approval.html', {
+				'event_list' : event_list,
+				})
+	else:
+		messages.success(request, ("You aren't authorized to view this page!"))
+		return redirect('events:home')
+
+	return render(request, 'events/admin_approval.html', {
+		
 		})

@@ -19,4 +19,5 @@ urlpatterns = [
 	path('venue_csv/', views.venue_csv, name = "venue_csv"),
 	path('my_events/', views.my_events, name = "my_events"),
 	path('search_event/', views.search_event, name = "search_event"),
+	path('admin_approval/', views.admin_approval, name = "admin_approval"),
 ]
