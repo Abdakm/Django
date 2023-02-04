@@ -49,9 +49,13 @@ def home(request, year = datetime.now().year, month = datetime.now().strftime('%
 def show_venue(request, venue_id): # click on link venue
 	venue = Venue.objects.get(pk=venue_id)
 	venue_owner = User.objects.get(pk=venue.owner)
+	
+	# Grap the events from that venue
+	events = venue.event_set.all()
 	return render(request, "events/show_venue.html",{	
 		"venue" : venue,
-		"venue_owner" : venue_owner
+		"venue_owner" : venue_owner,
+		'events' : events
 		})
 
 def search_venue(request): # click search
