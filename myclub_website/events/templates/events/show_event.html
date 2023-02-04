@@ -1,0 +1,47 @@
+{% extends 'events/layout.html' %}
+
+{% block body %}
+
+<h1>Show Event</h1>
+<br>
+		{% if event.approved %}
+
+		<div class="card">
+  			<div class="card-header">{{ event }}</div>
+  			<div class="card-body">
+    			<h5 class="card-title">Venue: {{ event.venue }}</h5>
+    			<p class="card-text">	
+					<ul>
+						<li>Date: {{ event.event_date }}</li>
+						<li>Days_till : {{ event.Days_till }}</li>
+						<li>Occured: {{ event.Is_Past }}</li>
+						<li>Datetime : {{ event.datetime }}</li>
+						<li>Venue Phone: {{ event.venue.phone }}</li>
+						<li>{{ event.id }}</li>
+						<li>Manager: {{ event.manager }}</li>
+						<li>Description: {{ event.description }}</li>
+						<li>Approved: {{ event.approved }}
+						<li>Attendees:
+							{% for attend in event.attendees.all %}
+								&nbsp<br>{{ attend }}
+							{% endfor %}
+						</li>
+					</ul>
+    			</p>
+    			<a href="#" class="btn btn-primary">Go somewhere</a>
+  			</div>
+			{% if user.is_authenticated %}
+				{% if user == event.manager %}
+		  			<div class="card-footer text-muted">
+		  				<a class="btn btn-outline-secondary btn-sm" href="{% url 'events:update_event' event.id %}">Update Event</a>
+		  				<a class="btn btn-outline-danger btn-sm" href="{% url 'events:delete_event' event.id %}">Delete Event</a>
+		  			</div>
+	  			{% endif %}
+  			{% endif %}
+		</div>
+		<br>
+
+
+		{% endif %}
+
+{% endblock %}

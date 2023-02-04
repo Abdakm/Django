@@ -16,7 +16,9 @@
 						<li>owner: {{ venue_owner }}</li>
 						<li>owner_email : {{ venue_owner.email }}</li>
 					</ul>
+					{% if venue.venue_image %}
 					<img src="{{ venue.venue_image.url }}" style="width: 200px;">
+					{% endif %}
     			</p>
     			<a href="#" class="btn btn-primary">Go somewhere</a>
   			</div>
